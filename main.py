@@ -24,7 +24,7 @@ def send(dest, message, senderUsername):
 def chat():
     time.sleep(1)
     for i in range(10):print()      
-    console.print("Bienvenue dans le chat")
+    console.print("[bold blue]Bienvenue dans le CPNE chat[/bold blue]")
     username = Prompt.ask("Entrez votre nom d'utilisateur")
     dest = Prompt.ask("Entrez le destinataire")
 
@@ -32,6 +32,8 @@ def chat():
     while message != "/exit":
         message = Prompt.ask(">")
         send(dest, message, username)
+        console.print(f"[bold]{username}:[/bold] {message}")
+
 
 
 
@@ -40,7 +42,7 @@ def receive():
     data = request.json
     message = data["message"]
     sender = data["sender"]
-    console.print(f"{sender}: {message}")
+    console.print(f"[bold blue]{sender}:[/bold blue] {message}")
     return "OK"
 
 
