@@ -28,7 +28,10 @@ def send(dest, message, senderUsername):
         "message": message,
         "sender": senderUsername
     }
-    r = requests.post(f"http://{dest}:5000", json=data)
+    try:
+        r = requests.post(f"http://{dest}:5000", json=data)
+    except:
+        console.print(f"[bold red]Impossible de se connecter à {dest}[/bold red]")
 
 
 
