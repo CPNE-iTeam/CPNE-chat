@@ -5,6 +5,7 @@ from rich.console import Console
 from rich.prompt import Prompt
 import time
 import logging
+import random
 
 app = Flask(__name__)
 console = Console()
@@ -19,6 +20,8 @@ WELCOME_MESSAGE = """
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░     
  ░▒▓██████▓▒░░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░       ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░                                                                                                         
 """
+
+LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$?!@#%&*()_+-=[]{}|;:,.<>"
 
 def send(dest, message, senderUsername):
     data = {
@@ -43,9 +46,16 @@ def chat():
         message = Prompt.ask(">")
         send(dest, message, username)
         console.print(f"[bold]{username}:[/bold] {message}")
+        if message == "/matrix":
+            print_matrix()
+            
 
 
-
+def print_matrix():
+    for i in range(50):
+        console.print(f"[bold green]{''.join([LETTERS[random.randint(0, len(LETTERS)-1)] for i in range(200)])}[/bold green]")
+        time.sleep(0.01)
+    
 
 @app.route("/", methods=["POST"])
 def receive():
@@ -53,6 +63,8 @@ def receive():
     message = data["message"]
     sender = data["sender"]
     console.print(f"[bold blue]{sender}:[/bold blue] {message}")
+    if message == "/matrix":
+        print_matrix()
     return "OK"
 
 
